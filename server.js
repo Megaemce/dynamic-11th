@@ -8,10 +8,10 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 // Basic health check
-app.get("api/", (req, res) => res.send("Express on Vercel"));
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 // Get the likes count
-app.get("api/:postTitle/likes", async (req, res) => {
+app.get("/:postTitle/likes", async (req, res) => {
     try {
         const { postTitle } = req.params;
         const likes =
@@ -26,7 +26,7 @@ app.get("api/:postTitle/likes", async (req, res) => {
 });
 
 // Update the likes count
-app.post("api/:postTitle/likes", async (req, res) => {
+app.post("/:postTitle/likes", async (req, res) => {
     try {
         const { postTitle } = req.params;
         const likes = await kv.HINCRBY(postTitle, "likes", 1);
@@ -39,7 +39,7 @@ app.post("api/:postTitle/likes", async (req, res) => {
 });
 
 // Get the view and increment them. Every request is a new view
-app.get("api/:postTitle/views", async (req, res) => {
+app.get("/:postTitle/views", async (req, res) => {
     try {
         const { postTitle } = req.params;
         const views = await kv.HINCRBY(postTitle, "views", 1);
