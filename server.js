@@ -9,15 +9,15 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "_site")));
 
 // Example of a dynamic API route
-app.get("/api/hello", (req, res) => {
-	res.json({ message: "Hello from Express!" });
+app.get("/api/*", (req, res) => {
+    res.json({ message: "Hello from Express!" });
 });
 
 // Catch-all handler to serve the index.html for any request that doesn't match an API route
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "_site", "index.html"));
+    res.sendFile(path.join(__dirname, "_site", "index.html"));
 });
 
 app.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
