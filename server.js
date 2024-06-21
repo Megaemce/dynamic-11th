@@ -1,12 +1,8 @@
 const express = require("express");
 const { kv } = require("@vercel/kv");
-const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-
-// Serve static files from the _site directory (the default output directory of 11ty)
-app.use(express.static(path.join(__dirname, "_site")));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -53,11 +49,6 @@ app.get("/api/:postTitle/views", async (req, res) => {
         console.error(err);
         res.status(500).send("Error getting post views!");
     }
-});
-
-// Catch-all handler to serve the index.html for any request that doesn't match an API route
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "_site", "index.html"));
 });
 
 app.listen(PORT, () => console.log(`Server ready on port ${PORT}.`));
