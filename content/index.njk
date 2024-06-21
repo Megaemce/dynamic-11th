@@ -21,14 +21,9 @@ layout: layouts/base.njk
         const responseViews = await fetch(`/api/hello/views`, {
             method: "GET",
         });
-        const responseLikes = await fetch(`/api/hello/likes`, {
-            method: "GET",
-        });
         const dataViews = await responseViews.json();
-        const dataLikes = await responseLikes.json();
 
         viewsCount.textContent = dataViews.views;
-        likesCount.textContent = dataLikes.likes;
 
         const handleClick = async () => {
             const response = await fetch(`/api/hello/likes`, {
