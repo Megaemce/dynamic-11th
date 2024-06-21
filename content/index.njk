@@ -4,25 +4,24 @@ layout: layouts/base.njk
 
 <p>
     Hey there, you are
-    <span id="views" class="views" data-postTitle="{{ title }}"></span>
+    <span id="views" class="views"></span>
     person here!
 </p>
 
-<button id="likeButton" class="likes" data-button-id="{{ title }}">
-    <span id="likesCount"></span>
+<button id="likeButton" class="likes">
+    <span id="likesCount">Give me a like! 👍</span>
 </button>
 
 <script>
     const viewsCount = document.getElementById("views");
     const likeButton = document.getElementById("likeButton");
     const likesCount = document.getElementById("likesCount");
-    const postTitle = likeButton.dataset.buttonId;
 
     document.addEventListener("DOMContentLoaded", async () => {
-        const responseViews = await fetch(`/api/${postTitle}/views`, {
+        const responseViews = await fetch(`/api/hello/views`, {
             method: "GET",
         });
-        const responseLikes = await fetch(`/api/${postTitle}/likes`, {
+        const responseLikes = await fetch(`/api/hello/likes`, {
             method: "GET",
         });
         const dataViews = await responseViews.json();
@@ -32,11 +31,11 @@ layout: layouts/base.njk
         likesCount.textContent = dataLikes.likes;
 
         const handleClick = async () => {
-            const response = await fetch(`/api/${postTitle}/likes`, {
+            const response = await fetch(`/api/hello/likes`, {
                 method: "POST",
             });
             const data = await response.json();
-            likesCount.textContent = data.likes;
+            likesCount.textContent = "Thx bro! 👍: " + data.likes;
 
             // Remove the event listener after the first click
             likeButton.removeEventListener("click", handleClick);
