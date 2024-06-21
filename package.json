@@ -6,8 +6,12 @@
 		"watch": "eleventy --watch",
 		"start": "node server.js"
 	},
+	"dependencies": {
+		"express": "^4.17.1",
+		"@vercel/kv": "0.2.1"
+	},
 	"devDependencies": {
-		"@11ty/eleventy": "^2.0.1",
-		"express": "^4.17.1"
+		"@vercel/node": "^2.9.6",
+		"@11ty/eleventy": "^2.0.1"
 	}
 }
