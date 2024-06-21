@@ -20,7 +20,7 @@ app.get("/api/:postTitle/likes", async (req, res) => {
         const { postTitle } = req.params;
         const likes =
             (await kv.hget(postTitle, "likes")) ||
-            (await kv.hget(postTitle, "likes", 0));
+            (await kv.hset(postTitle, "likes", 0));
 
         res.json({ likes: likes });
     } catch (err) {
