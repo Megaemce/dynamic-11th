@@ -4,9 +4,6 @@ const kv = require("@vercel/kv");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-let likes = 0;
-let views = 0;
-
 // Middleware to parse JSON bodies
 app.use(express.json());
 
@@ -17,7 +14,7 @@ app.get("api/", (req, res) => res.send("Express on Vercel"));
 app.get("api/:postTitle/likes", async (req, res) => {
     try {
         const { postTitle } = req.params;
-        likes =
+        const likes =
             (await kv.HGET(postTitle, "likes")) ||
             (await kv.HSET(postTitle, "likes", 0));
 
@@ -32,7 +29,7 @@ app.get("api/:postTitle/likes", async (req, res) => {
 app.post("api/:postTitle/likes", async (req, res) => {
     try {
         const { postTitle } = req.params;
-        likes = await kv.HINCRBY(postTitle, "likes", 1);
+        const likes = await kv.HINCRBY(postTitle, "likes", 1);
 
         res.json({ likes: likes });
     } catch (err) {
@@ -45,7 +42,7 @@ app.post("api/:postTitle/likes", async (req, res) => {
 app.get("api/:postTitle/views", async (req, res) => {
     try {
         const { postTitle } = req.params;
-        views = await kv.HINCRBY(postTitle, "views", 1);
+        const views = await kv.HINCRBY(postTitle, "views", 1);
 
         res.json({ views: views });
     } catch (err) {

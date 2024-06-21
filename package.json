@@ -11,7 +11,6 @@
 		"@vercel/kv": "0.2.1"
 	},
 	"devDependencies": {
-		"@vercel/node": "^2.9.6",
 		"@11ty/eleventy": "^2.0.1"
 	}
 }

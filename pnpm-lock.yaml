@@ -11,6 +11,9 @@ importers:
       '@vercel/kv':
         specifier: 0.2.1
         version: 0.2.1
+      '@vercel/node':
+        specifier: ^2.9.6
+        version: 2.15.10
       express:
         specifier: ^4.17.1
         version: 4.19.2
@@ -18,9 +21,6 @@ importers:
       '@11ty/eleventy':
         specifier: ^2.0.1
         version: 2.0.1
-      '@vercel/node':
-        specifier: ^2.9.6
-        version: 2.15.10
 
 packages:
 
