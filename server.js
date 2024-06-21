@@ -1,17 +1,21 @@
 const express = require("express");
 const kv = require("@vercel/kv");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Serve static files from the _site directory (the default output directory of 11ty)
+app.use(express.static(path.join(__dirname, "_site")));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
 // Basic health check
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/api/*", (req, res) => res.json({ message: "Hello from Express!" }));
 
 // Get the likes count
-app.get("/:postTitle/likes", async (req, res) => {
+app.get("/api/:postTitle/likes", async (req, res) => {
     try {
         const { postTitle } = req.params;
         const likes =
@@ -26,7 +30,7 @@ app.get("/:postTitle/likes", async (req, res) => {
 });
 
 // Update the likes count
-app.post("/:postTitle/likes", async (req, res) => {
+app.post("/api/:postTitle/likes", async (req, res) => {
     try {
         const { postTitle } = req.params;
         const likes = await kv.HINCRBY(postTitle, "likes", 1);
@@ -39,7 +43,7 @@ app.post("/:postTitle/likes", async (req, res) => {
 });
 
 // Get the view and increment them. Every request is a new view
-app.get("/:postTitle/views", async (req, res) => {
+app.get("/api/:postTitle/views", async (req, res) => {
     try {
         const { postTitle } = req.params;
         const views = await kv.HINCRBY(postTitle, "views", 1);
@@ -49,6 +53,11 @@ app.get("/:postTitle/views", async (req, res) => {
         console.error(err);
         res.status(500).send("Error getting post views!");
     }
+});
+
+// Catch-all handler to serve the index.html for any request that doesn't match an API route
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "_site", "index.html"));
 });
 
 app.listen(PORT, () => console.log(`Server ready on port ${PORT}.`));
